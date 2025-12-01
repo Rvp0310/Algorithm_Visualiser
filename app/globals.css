@@ -16,6 +16,7 @@ body {
   width: 100%;
   height: 100%;
   background-color: var(--background) !important;
+  overflow: hidden;
 }
 
 nav {
@@ -43,6 +44,12 @@ nav {
 .algoList {
   background-color: var(--accents);
   color: var(--fontLight);
+  position: fixed;
+  left: 0;
+  top: 0;
+  max-width: 250px;
+  min-height: 100vh !important;
+  overflow: auto;
   font-family: 'Inter', sans-serif;
   padding: 0;
 }
@@ -55,7 +62,8 @@ nav {
 }
 
 .algoList .MuiListItem-root:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--strokes);
+  color: var(--background);
   cursor: pointer;
 }
 
@@ -80,9 +88,31 @@ nav {
   background-color: var(--accents) !important;
   color: var(--fontLight);
   font-family: 'Inter', sans-serif;
-  padding: 0;
+  padding: 4em 0;
+  position: fixed;
+  right: 0 !important;
+  top: 0 !important;
+  max-width: 250px !important;
+  min-height: 100vh !important;
+  overflow: auto;
 }
 
 .general{
+  padding: 0 1rem;
+  color: var(--background);
+  background-color: var(--accents) !important;
   margin: 1rem;
+}
+
+.slide .MuiSlider-thumb {
+  background-color: var(--background);
+  border: 2px solid var(--strokes); 
+}
+
+.slide .MuiSlider-track {
+  background-color: var(--background);
+}
+
+.slide .MuiSlider-rail {
+  background-color: var(--fontLight);
 }

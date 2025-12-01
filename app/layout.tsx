@@ -11,10 +11,10 @@ import Slider from "@mui/material/Slider";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import StairsIcon from '@mui/icons-material/Stairs';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import StairsIcon from "@mui/icons-material/Stairs";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 export const metadata: Metadata = {
   title: "Algorithm Visualizer",
@@ -43,11 +43,6 @@ export default function RootLayout({
           <List
             className="algoList"
             sx={{
-              maxWidth: 250,
-              position: "fixed",
-              left: 0,
-              minHeight: "100vh",
-              overflow: "auto",
               "& ul": { padding: 0 },
             }}
             subheader={<CodeIcon />}
@@ -67,42 +62,34 @@ export default function RootLayout({
           </List>
         </aside>
         {children}
-        <aside style={{ position: "fixed", right: 0 }}>
-          <div
-            className="cotrols"
-            style={{
-              maxWidth: 350,
-              minHeight: "100vh",
-              overflow: "auto",
-            }}
-          >
-            <div className="general">
-              speed:
-              <br />
-              <Slider
-                defaultValue={50}
-                aria-label="Default"
-                valueLabelDisplay="auto"
-                style={{
-                  padding: '1em 10px',
-                  width: '9em'
-                }}
-              />
-              <br />
-              <Button variant="outlined">Generate New Input</Button>
-              <Stack spacing={2} direction="row">
-                <IconButton aria-label="pause">
-                  <PauseIcon />
-                  <PlayArrowIcon />
-                </IconButton>
-                <IconButton aria-label="pause">
-                  <StairsIcon />
-                </IconButton>
-                <IconButton aria-label="pause">
-                  <RestartAltIcon />
-                </IconButton>
-              </Stack>
-            </div>
+        <aside className="controls">
+          <div className="general">
+            speed:
+            <br />
+            <Slider
+              defaultValue={50}
+              aria-label="Default"
+              valueLabelDisplay="auto"
+              className="slide"
+              style={{
+                padding: "1em 10px",
+                width: "9em",
+              }}
+            />
+            <br />
+            <Button variant="outlined" sx={{ borderColor: "white", color: "white" }}>Generate New Input</Button>
+            <Stack spacing={2} direction="row">
+              <IconButton aria-label="pause">
+                <PauseIcon sx={{ color: "white" }} />
+                <PlayArrowIcon sx={{ color: "white" }} />
+              </IconButton>
+              <IconButton aria-label="pause">
+                <StairsIcon sx={{ color: "white" }} />
+              </IconButton>
+              <IconButton aria-label="pause">
+                <RestartAltIcon sx={{ color: "white" }} />
+              </IconButton>
+            </Stack>
           </div>
         </aside>
       </body>
