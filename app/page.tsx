@@ -1,6 +1,9 @@
 "use client"
+import { useState } from 'react';
 
-import algorithms from './data/algorithms.json'
+import { algorithms } from './data/algorithms'
+
+import { randomArrayGen } from './Helpers/ArrayGen';
 
 import CodeIcon from "@mui/icons-material/Code";
 import List from "@mui/material/List";
@@ -16,20 +19,14 @@ import PauseIcon from "@mui/icons-material/Pause";
 import StairsIcon from "@mui/icons-material/Stairs";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
-import { useState } from 'react';
-
-import MergeSort from './components/Sorting/MergeSort';
 import None from './components/None';
 
+import { AlgoItem } from './Helpers/Types';
+
 export default function Visualizer() {
-  const algos = {
-    None: <None />,
-    MergeSort: <MergeSort />
-  }
 
-  type AlgoKey = keyof typeof algos;
-
-  const [selected, setSelected] = useState<AlgoKey>("None");
+  const [selected, setSelected] = useState<AlgoItem>();
+  const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
 
   return (
     <>
@@ -40,22 +37,22 @@ export default function Visualizer() {
             }}
             subheader={<CodeIcon />}
           >
-            {algorithms.map((category) => (
-              <li key={`section-${category.category}`}>
-                <ListSubheader className="algoType">{category.category}</ListSubheader>
+            {Object.entries(algorithms).map(([category, items]) => (
+              <div key={`section-${category}`}>
+                <ListSubheader className="algoType">{category}</ListSubheader>
                 <ul>
-                  {category.items.map((item) => (
-                    <ListItem key={`item-${category.category}-${item.name}`}>
-                      <ListItemText primary={item.name} onClick={() => setSelected(item.component as AlgoKey)}/>
+                  {items.map((algo) => (
+                    <ListItem key={`item-${category}-${algo.name}`}>
+                      <ListItemText primary={algo.name} onClick={() => setSelected({name: algo.name, component: algo.component})}/>
                     </ListItem>
                   ))}
                 </ul>
-              </li>
+              </div>
             ))}
           </List>
         </aside>
         <main className="d-flex justify-content-center p-4">
-          {algos[selected]}
+          {selected ? <selected.component refreshTrigger = {refreshTrigger} />: <None />}
         </main>
         <aside className="controls">
           <div className="general">
@@ -72,7 +69,6 @@ export default function Visualizer() {
               }}
             />
             <br />
-            <Button variant="outlined" sx={{ borderColor: "white", color: "white" }}>Generate New Input</Button>
             <Stack spacing={2} direction="row">
               <IconButton aria-label="pause">
                 <PauseIcon sx={{ color: "white" }} />
@@ -85,6 +81,9 @@ export default function Visualizer() {
                 <RestartAltIcon sx={{ color: "white" }} />
               </IconButton>
             </Stack>
+            { 
+              selected?.name === "Merge Sort" && (<Button variant="outlined" sx={{ borderColor: "white", color: "white" }} onClick={() => setRefreshTrigger(prev => prev + 1)}>Generate New Input</Button>) 
+            }
           </div>
         </aside>
     </>

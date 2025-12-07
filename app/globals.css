@@ -9,6 +9,10 @@
   --fontLight: #8B9AB8;
   --bars: #3E6DE0;
   --buttons: #5A8CFF;
+  --compare: #F2C94C;
+  --swap: #EB5757;
+  --overwrite: #27AE60;
+  --final: #9B51E0;
 }
 
 body {
@@ -118,7 +122,7 @@ nav {
 }
 
 .default{
-  width: 80%;
+  width: 60%;
   height: 100vh;
 }
 
@@ -134,4 +138,30 @@ nav {
   font-size: large;
   color: var(--strokes);
   font-style: italic;
+}
+
+.bars-wrapper{
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100vh;
+}
+
+.bars{
+  background-color: var(--bars);
+  margin: 1px;
+}
+
+.start{
+  width: fit-content;
+  height: max-content;
+  font-size: smaller;
+  font-style: oblique;
+  color: var(--strokes);
+  font-family: Helvetica, 'Arial Narrow Bold', sans-serif;
+}
+
+.done{
+  background-color: var(--final);
 }

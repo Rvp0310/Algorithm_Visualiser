@@ -1,8 +1,0 @@
-[
-  {
-    "category": "Sorting",
-    "items": [
-      { "name": "Merge Sort", "component": "MergeSort" }
-    ]
-  }
-]
