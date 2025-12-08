@@ -3,8 +3,6 @@ import { useState } from 'react';
 
 import { algorithms } from './data/algorithms'
 
-import { randomArrayGen } from './Helpers/ArrayGen';
-
 import CodeIcon from "@mui/icons-material/Code";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -69,15 +67,12 @@ export default function Visualizer() {
               }}
             />
             <br />
-            <Stack spacing={2} direction="row">
-              <IconButton aria-label="pause">
+            <Stack spacing={7} direction="row">
+              <IconButton aria-label="pause-play">
                 <PauseIcon sx={{ color: "white" }} />
                 <PlayArrowIcon sx={{ color: "white" }} />
               </IconButton>
-              <IconButton aria-label="pause">
-                <StairsIcon sx={{ color: "white" }} />
-              </IconButton>
-              <IconButton aria-label="pause">
+              <IconButton aria-label="restart">
                 <RestartAltIcon sx={{ color: "white" }} />
               </IconButton>
             </Stack>

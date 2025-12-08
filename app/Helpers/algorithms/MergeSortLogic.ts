@@ -46,10 +46,6 @@ export const mergeSortWithSteps = (nums: number[]): {sorted: number[], steps: So
 
       while (i <= mid) {
         steps.push({
-          index: [i, mid],
-          action: "compare"
-        });
-        steps.push({
           index: k,
           action: "overwrite",
           newVal: aux[i],
@@ -58,10 +54,6 @@ export const mergeSortWithSteps = (nums: number[]): {sorted: number[], steps: So
       }
 
       while (j <= hi) {
-        steps.push({
-           index: [j, hi], 
-           action: "compare" 
-        });
         steps.push({
           index: k,
           action: "overwrite",

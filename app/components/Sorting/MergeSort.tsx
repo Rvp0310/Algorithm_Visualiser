@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { randomArrayGen } from "@/app/Helpers/ArrayGen";
 import { RefreshTriggerProps, SortingAction } from "@/app/Helpers/Types";
 import { mergeSortWithSteps } from "@/app/Helpers/algorithms/MergeSortLogic";
+import { createSortingAnimator } from "@/app/Helpers/animator/SortAnimator";
 
 const MergeSort: React.FC<RefreshTriggerProps> = ({ refreshTrigger }) => {
   const [arr, setArr] = useState<number[]>([]);
@@ -10,9 +11,12 @@ const MergeSort: React.FC<RefreshTriggerProps> = ({ refreshTrigger }) => {
 
   const [activeBars, setActiveBars] = useState<number[]>([]);
   const [swapBars, setSwapBars] = useState<number[]>([]);
-  const [overwriteIndex, setOverWriteIndex] = useState<number | null>(null);
+  const [overwriteIndex, setOverwriteIndex] = useState<number | null>(null);
   const [done, setDone] = useState<boolean>(false);
+  const [playing, setPlaying] = useState<boolean>(false);
 
+  const { play } = createSortingAnimator({setArr, setActiveBars, setSwapBars, setOverwriteIndex, setDone});
+  
   useEffect(() => {
     const newArr = randomArrayGen();
     setArr(newArr);
@@ -21,63 +25,25 @@ const MergeSort: React.FC<RefreshTriggerProps> = ({ refreshTrigger }) => {
     setDone(false);
     setActiveBars([]);
     setSwapBars([]);
-    setOverWriteIndex(null);
+    setOverwriteIndex(null);
+    setPlaying(false);
   }, [refreshTrigger]);
-
-  const handleStep = (step: SortingAction) => {
-    switch (step.action) {
-      case "compare":
-        setActiveBars(step.index);
-        break;
-      case "swap":
-        const [i, j] = step.index;
-        setArr((prev) => {
-          const newArr = [...prev];
-          [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
-          return newArr;
-        });
-        setSwapBars(step.index);
-        break;
-      case "overwrite":
-        setArr((prev) => {
-          const newArr = [...prev];
-          newArr[step.index as number] = step.newVal;
-          return newArr;
-        });
-        setOverWriteIndex(step.index as number);
-        break;
-      case "done":
-        setDone(true);
-        setActiveBars([]);
-        setSwapBars([]);
-        setOverWriteIndex(null);
-        break;
-    }
-  };
-
-  const play = (steps: SortingAction[]) => {
-    let delay = 0;
-    const speed = 50;
-
-    steps.forEach((step) => {
-      setTimeout(() => {
-        handleStep(step);
-      }, delay);
-
-      delay += speed;
-    });
-  };
 
   return (
     <div className="default">
-      {!done && <button
-        type="button"
-        className="btn btn-info start"
-        style={{ margin: "0 45%" }}
-        onClick={() => play(steps)}
-      >
-        Start Sorting
-      </button>}
+      <div style={{height: '60px'}}>
+        {!playing && <button
+          type="button"
+          className="btn btn-info start"
+          style={{ margin: "0 45%"}}
+          onClick={() => {
+            setPlaying(true);
+            play(steps)
+          }}
+        >
+          Start Sorting
+        </button>}
+      </div>
       <div className="bars-wrapper">
         {arr.map((h, i) => (
           <div
