@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 import { randomArrayGen } from "@/app/Helpers/ArrayGen";
-import { RefreshTriggerProps, SortingAction } from "@/app/Helpers/Types";
+import { SortProps, SortingAction } from "@/app/Helpers/Types";
 import { mergeSortWithSteps } from "@/app/Helpers/algorithms/MergeSortLogic";
 import { createSortingAnimator } from "@/app/Helpers/animator/SortAnimator";
 
-const MergeSort: React.FC<RefreshTriggerProps> = ({ refreshTrigger }) => {
+const MergeSort: React.FC<SortProps> = ({ refreshTrigger, speed, arraylen }) => {
   const [arr, setArr] = useState<number[]>([]);
   const [steps, setSteps] = useState<SortingAction[]>([]);
 
@@ -15,10 +15,10 @@ const MergeSort: React.FC<RefreshTriggerProps> = ({ refreshTrigger }) => {
   const [done, setDone] = useState<boolean>(false);
   const [playing, setPlaying] = useState<boolean>(false);
 
-  const { play } = createSortingAnimator({setArr, setActiveBars, setSwapBars, setOverwriteIndex, setDone});
+  const { play } = createSortingAnimator({setArr, setActiveBars, setSwapBars, setOverwriteIndex, setDone, speed});
   
   useEffect(() => {
-    const newArr = randomArrayGen();
+    const newArr = randomArrayGen(arraylen);
     setArr(newArr);
     const { steps } = mergeSortWithSteps([...newArr]);
     setSteps(steps);

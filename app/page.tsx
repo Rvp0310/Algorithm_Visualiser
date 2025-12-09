@@ -26,6 +26,9 @@ export default function Visualizer() {
   const [selected, setSelected] = useState<AlgoItem>();
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
 
+  const [speed, setSpeed] = useState<number>(0);
+  const [arraylen, setArraylen] = useState<number>(100);
+
   return (
     <>
       <aside className='algoList'>
@@ -50,14 +53,14 @@ export default function Visualizer() {
           </List>
         </aside>
         <main className="d-flex justify-content-center p-4">
-          {selected ? <selected.component refreshTrigger = {refreshTrigger} />: <None />}
+          {selected ? <selected.component refreshTrigger = {refreshTrigger} speed = {speed} arraylen = {arraylen} />: <None />}
         </main>
         <aside className="controls">
           <div className="general">
             speed:
             <br />
             <Slider
-              defaultValue={50}
+              defaultValue={speed}
               aria-label="Default"
               valueLabelDisplay="auto"
               className="slide"
@@ -65,6 +68,7 @@ export default function Visualizer() {
                 padding: "1em 10px",
                 width: "9em",
               }}
+              onChange={(e, value) => {setSpeed(value)}}
             />
             <br />
             <Stack spacing={7} direction="row">
@@ -77,7 +81,24 @@ export default function Visualizer() {
               </IconButton>
             </Stack>
             { 
-              selected?.name === "Merge Sort" && (<Button variant="outlined" sx={{ borderColor: "white", color: "white" }} onClick={() => setRefreshTrigger(prev => prev + 1)}>Generate New Input</Button>) 
+              selected?.name === "Merge Sort" && (
+                <div>
+                  array length:
+                  <br />
+                  <Slider
+                    defaultValue={arraylen}
+                    aria-label="Default"
+                    valueLabelDisplay="auto"
+                    className="slide"
+                    style={{
+                      padding: "1em 10px",
+                      width: "9em",
+                    }}
+                    onChange={(e, value) => {setArraylen(value)}}
+                  />
+                  <Button variant="outlined" sx={{ borderColor: "white", color: "white"}} onClick={() => setRefreshTrigger(prev => prev + 1)}>Generate New Input</Button>
+                </div>
+              ) 
             }
           </div>
         </aside>

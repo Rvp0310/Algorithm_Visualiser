@@ -5,13 +5,15 @@ export const createSortingAnimator = ({
     setActiveBars,
     setSwapBars,
     setOverwriteIndex,
-    setDone
+    setDone,
+    speed
 } : {
     setArr: React.Dispatch<React.SetStateAction<number[]>>;
   setActiveBars: React.Dispatch<React.SetStateAction<number[]>>;
   setSwapBars: React.Dispatch<React.SetStateAction<number[]>>;
   setOverwriteIndex: React.Dispatch<React.SetStateAction<number | null>>;
   setDone: React.Dispatch<React.SetStateAction<boolean>>;
+  speed: number;
 }) => {
 
     const handleStep = (step: SortingAction) => {
@@ -42,11 +44,11 @@ export const createSortingAnimator = ({
         }
     };
 
-    const play = (steps: SortingAction[], speed = 50) => {
+    const play = (steps: SortingAction[]) => {
         let delay = 0;
         steps.forEach(step => {
             setTimeout(() => handleStep(step), delay);
-            delay += speed;
+            delay += (110 - speed);
         });
     };
 
