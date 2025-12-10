@@ -1,7 +1,7 @@
-"use client"
-import { useState } from 'react';
+"use client";
+import { useState, useEffect } from "react";
 
-import { algorithms } from './data/algorithms'
+import { algorithms } from "./data/algorithms";
 
 import CodeIcon from "@mui/icons-material/Code";
 import List from "@mui/material/List";
@@ -17,91 +17,175 @@ import PauseIcon from "@mui/icons-material/Pause";
 import StairsIcon from "@mui/icons-material/Stairs";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
-import None from './components/None';
+import None from "./components/None";
 
-import { AlgoItem } from './Helpers/Types';
+import { randomArrayGen } from "./Helpers/ArrayGen";
+import { SortingAction } from "./Helpers/Types";
+import { mergeSortWithSteps } from "@/app/Helpers/algorithms/MergeSortLogic";
+import { createSortingAnimator } from "@/app/Helpers/animator/SortAnimator";
+import {replay} from './Helpers/Animation'
+
+import { AlgoItem } from "./Helpers/Types";
 
 export default function Visualizer() {
-
   const [selected, setSelected] = useState<AlgoItem>();
+  
+  //For Sorting
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
-
+  const [arr, setArr] = useState<number[]>([]);
+  const [steps, setSteps] = useState<SortingAction[]>([]);
+  const [activeBars, setActiveBars] = useState<number[]>([]);
+  const [swapBars, setSwapBars] = useState<number[]>([]);
+  const [overwriteIndex, setOverwriteIndex] = useState<number | null>(null);
+  const [done, setDone] = useState<boolean>(false);
+  const [playing, setPlaying] = useState<boolean>(false);
   const [speed, setSpeed] = useState<number>(0);
   const [arraylen, setArraylen] = useState<number>(100);
 
+  const { play } = createSortingAnimator({
+    setArr,
+    setActiveBars,
+    setSwapBars,
+    setOverwriteIndex,
+    setDone,
+    setPlaying,
+    speed,
+  });
+
+  useEffect(() => {
+    const newArr = randomArrayGen(arraylen);
+    setArr(newArr);
+    const { steps } = mergeSortWithSteps([...newArr]);
+    setSteps(steps);
+    setDone(false);
+    setActiveBars([]);
+    setSwapBars([]);
+    setOverwriteIndex(null);
+    setPlaying(false);
+  }, [refreshTrigger]);
+
+  // For Sorting ^
+
   return (
     <>
-      <aside className='algoList'>
-          <List
-            sx={{
-              "& ul": { padding: 0 },
-            }}
-            subheader={<CodeIcon />}
-          >
-            {Object.entries(algorithms).map(([category, items]) => (
-              <div key={`section-${category}`}>
-                <ListSubheader className="algoType">{category}</ListSubheader>
-                <ul>
-                  {items.map((algo) => (
-                    <ListItem key={`item-${category}-${algo.name}`}>
-                      <ListItemText primary={algo.name} onClick={() => setSelected({name: algo.name, component: algo.component})}/>
-                    </ListItem>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </List>
-        </aside>
-        <main className="d-flex justify-content-center p-4">
-          {selected ? <selected.component refreshTrigger = {refreshTrigger} speed = {speed} arraylen = {arraylen} />: <None />}
-        </main>
-        <aside className="controls">
-          <div className="general">
-            speed:
-            <br />
-            <Slider
-              defaultValue={speed}
-              aria-label="Default"
-              valueLabelDisplay="auto"
-              className="slide"
-              style={{
-                padding: "1em 10px",
-                width: "9em",
-              }}
-              onChange={(e, value) => {setSpeed(value)}}
+      <aside className="algoList">
+        <List
+          sx={{
+            "& ul": { padding: 0 },
+          }}
+          subheader={<CodeIcon />}
+        >
+          {Object.entries(algorithms).map(([category, items]) => (
+            <div key={`section-${category}`}>
+              <ListSubheader className="algoType">{category}</ListSubheader>
+              <ul>
+                {items.map((algo) => (
+                  <ListItem key={`item-${category}-${algo.name}`}>
+                    <ListItemText
+                      primary={algo.name}
+                      onClick={() =>
+                        setSelected({
+                          name: algo.name,
+                          component: algo.component,
+                        })
+                      }
+                    />
+                  </ListItem>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </List>
+      </aside>
+      <main className="d-flex justify-content-center p-4">
+        {selected ? (
+          <div className="sortSpace">
+            <div style={{ height: "60px" }}>
+              {!playing && !done && (
+                <button
+                  type="button"
+                  className="btn btn-info start"
+                  style={{ margin: "0 45%" }}
+                  onClick={() => {
+                    console.log(arr);
+                    setPlaying(true);
+                    play(steps);
+                  }}
+                >
+                  Start Sorting
+                </button>
+              )}
+            </div>
+            <selected.component
+              arr={arr}
+              done={done}
+              activeBars={activeBars}
+              swapBars={swapBars}
+              overwriteIndex={overwriteIndex}
             />
-            <br />
-            <Stack spacing={7} direction="row">
-              <IconButton aria-label="pause-play">
-                <PauseIcon sx={{ color: "white" }} />
-                <PlayArrowIcon sx={{ color: "white" }} />
-              </IconButton>
-              <IconButton aria-label="restart">
-                <RestartAltIcon sx={{ color: "white" }} />
-              </IconButton>
-            </Stack>
-            { 
-              selected?.name === "Merge Sort" && (
-                <div>
-                  array length:
-                  <br />
-                  <Slider
-                    defaultValue={arraylen}
-                    aria-label="Default"
-                    valueLabelDisplay="auto"
-                    className="slide"
-                    style={{
-                      padding: "1em 10px",
-                      width: "9em",
-                    }}
-                    onChange={(e, value) => {setArraylen(value)}}
-                  />
-                  <Button variant="outlined" sx={{ borderColor: "white", color: "white"}} onClick={() => setRefreshTrigger(prev => prev + 1)}>Generate New Input</Button>
-                </div>
-              ) 
-            }
           </div>
-        </aside>
+        ) : (
+          <None />
+        )}
+      </main>
+      <aside className="controls">
+        <div className="general" style={{ opacity: selected && !playing ? 1 : 0.4 }}>
+          speed:
+          <br />
+          <Slider
+            defaultValue={speed}
+            disabled={!selected || playing}
+            aria-label="Default"
+            valueLabelDisplay="auto"
+            className="slide"
+            style={{
+              padding: "1em 10px",
+              width: "9em",
+            }}
+            onChange={(e, value) => {
+              setSpeed(value);
+            }}
+          />
+          <br />
+          <Stack spacing={7} direction="row" sx={{ opacity: playing? 0.4 : 1}}>
+            <IconButton disabled={!selected || playing} aria-label="pause-play">
+              <PauseIcon sx={{ color: "white" }} />
+              <PlayArrowIcon sx={{ color: "white" }} />
+            </IconButton>
+            <IconButton disabled={!selected || playing} onClick = {() => replay({arr, setArr, setDone, setActiveBars, setSwapBars, setOverwriteIndex})} aria-label="restart">
+              <RestartAltIcon sx={{ color: "white" }} />
+            </IconButton>
+          </Stack>
+          {selected?.name === "Merge Sort" && (
+            <div style={{ opacity: playing? 0.4 : 1}}>
+              array length:
+              <br />
+              <Slider
+                defaultValue={arraylen}
+                aria-label="Default"
+                disabled = {playing}
+                valueLabelDisplay="auto"
+                className="slide"
+                style={{
+                  padding: "1em 10px",
+                  width: "9em",
+                }}
+                onChange={(e, value) => {
+                  setArraylen(value);
+                }}
+              />
+              <Button
+                variant="outlined"
+                disabled = {playing}
+                sx={{ borderColor: "white", color: "white" }}
+                onClick={() => setRefreshTrigger((prev) => prev + 1)}
+              >
+                Generate New Input
+              </Button>
+            </div>
+          )}
+        </div>
+      </aside>
     </>
   );
 }

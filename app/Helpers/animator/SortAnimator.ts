@@ -1,4 +1,4 @@
-import {SortingAction} from '../Types'
+import {SortAnimatorParams, SortingAction} from '../Types'
 
 export const createSortingAnimator = ({
     setArr,
@@ -6,15 +6,9 @@ export const createSortingAnimator = ({
     setSwapBars,
     setOverwriteIndex,
     setDone,
+    setPlaying,
     speed
-} : {
-    setArr: React.Dispatch<React.SetStateAction<number[]>>;
-  setActiveBars: React.Dispatch<React.SetStateAction<number[]>>;
-  setSwapBars: React.Dispatch<React.SetStateAction<number[]>>;
-  setOverwriteIndex: React.Dispatch<React.SetStateAction<number | null>>;
-  setDone: React.Dispatch<React.SetStateAction<boolean>>;
-  speed: number;
-}) => {
+} : SortAnimatorParams) => {
 
     const handleStep = (step: SortingAction) => {
         switch (step.action) {
@@ -40,6 +34,7 @@ export const createSortingAnimator = ({
                 break;
             case "done":
                 setDone(true);
+                setPlaying(false);
                 break;
         }
     };
@@ -48,7 +43,7 @@ export const createSortingAnimator = ({
         let delay = 0;
         steps.forEach(step => {
             setTimeout(() => handleStep(step), delay);
-            delay += (110 - speed);
+            delay += (105 - speed);
         });
     };
 
