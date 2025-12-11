@@ -30,7 +30,7 @@ export type SortingAction =
     };
 
 export type ReplayParam = {
-  arr: number[];
+  prevArr: number[];
   setArr: React.Dispatch<React.SetStateAction<number[]>>;
   setDone: React.Dispatch<React.SetStateAction<boolean>>;
   setActiveBars: React.Dispatch<React.SetStateAction<number[]>>;

@@ -1,8 +1,8 @@
-// pause and resume functionality, restart wip 
+// pause and resume functionality;
 import { ReplayParam } from "./Types";
 
-export const replay = ({arr, setArr, setDone, setActiveBars, setSwapBars, setOverwriteIndex}: ReplayParam) => {
-    setArr(arr);
+export const replay = ({prevArr, setArr, setDone, setActiveBars, setSwapBars, setOverwriteIndex}: ReplayParam) => {
+    setArr(prevArr);
     setDone(false);
     setActiveBars([]);
     setSwapBars([]);

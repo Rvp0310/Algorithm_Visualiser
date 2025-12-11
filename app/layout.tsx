@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import "./globals.css";
 
 import BootstrapJS from "./bootstrap";
+import "./stylesheets/globals.css";
 
 export const metadata: Metadata = {
   title: "Algorithm Visualizer",

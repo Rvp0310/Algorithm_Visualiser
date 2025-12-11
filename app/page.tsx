@@ -14,7 +14,6 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
-import StairsIcon from "@mui/icons-material/Stairs";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 import None from "./components/None";
@@ -40,7 +39,8 @@ export default function Visualizer() {
   const [done, setDone] = useState<boolean>(false);
   const [playing, setPlaying] = useState<boolean>(false);
   const [speed, setSpeed] = useState<number>(0);
-  const [arraylen, setArraylen] = useState<number>(100);
+  const [arraylen, setArraylen] = useState<number>(0);
+  const [prevArr, setPrevArr] = useState<number[]>([]);
 
   const { play } = createSortingAnimator({
     setArr,
@@ -53,8 +53,11 @@ export default function Visualizer() {
   });
 
   useEffect(() => {
+    if (!selected) return;
+
     const newArr = randomArrayGen(arraylen);
     setArr(newArr);
+    setPrevArr(newArr);
     const { steps } = mergeSortWithSteps([...newArr]);
     setSteps(steps);
     setDone(false);
@@ -62,7 +65,7 @@ export default function Visualizer() {
     setSwapBars([]);
     setOverwriteIndex(null);
     setPlaying(false);
-  }, [refreshTrigger]);
+  }, [refreshTrigger, selected]);
 
   // For Sorting ^
 
@@ -152,7 +155,7 @@ export default function Visualizer() {
               <PauseIcon sx={{ color: "white" }} />
               <PlayArrowIcon sx={{ color: "white" }} />
             </IconButton>
-            <IconButton disabled={!selected || playing} onClick = {() => replay({arr, setArr, setDone, setActiveBars, setSwapBars, setOverwriteIndex})} aria-label="restart">
+            <IconButton disabled={!selected || playing} onClick = {() => replay({prevArr, setArr, setDone, setActiveBars, setSwapBars, setOverwriteIndex})} aria-label="restart">
               <RestartAltIcon sx={{ color: "white" }} />
             </IconButton>
           </Stack>
