@@ -173,3 +173,7 @@ nav {
 .done{
   background-color: var(--final);
 }
+
+.restartBtn{
+  margin-left: 40% !important;
+}

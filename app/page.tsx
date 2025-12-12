@@ -9,11 +9,9 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import Slider from "@mui/material/Slider";
-import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import PauseIcon from "@mui/icons-material/Pause";
+import Tooltip from '@mui/material/Tooltip';
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 import None from "./components/None";
@@ -150,15 +148,11 @@ export default function Visualizer() {
             }}
           />
           <br />
-          <Stack spacing={7} direction="row" sx={{ opacity: playing? 0.4 : 1}}>
-            <IconButton disabled={!selected || playing} aria-label="pause-play">
-              <PauseIcon sx={{ color: "white" }} />
-              <PlayArrowIcon sx={{ color: "white" }} />
-            </IconButton>
-            <IconButton disabled={!selected || playing} onClick = {() => replay({prevArr, setArr, setDone, setActiveBars, setSwapBars, setOverwriteIndex})} aria-label="restart">
+          <Tooltip title = 'Replay'>
+            <IconButton className='restartBtn' disabled={!selected || playing || !done} onClick = {() => replay({prevArr, setArr, setDone, setActiveBars, setSwapBars, setOverwriteIndex, setPlaying, speed, steps})} sx={{ opacity: playing || !done? 0.4 : 1}} aria-label="restart">
               <RestartAltIcon sx={{ color: "white" }} />
             </IconButton>
-          </Stack>
+          </Tooltip>
           {selected?.name === "Merge Sort" && (
             <div style={{ opacity: playing? 0.4 : 1}}>
               array length:

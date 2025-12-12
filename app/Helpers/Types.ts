@@ -36,6 +36,9 @@ export type ReplayParam = {
   setActiveBars: React.Dispatch<React.SetStateAction<number[]>>;
   setSwapBars: React.Dispatch<React.SetStateAction<number[]>>;
   setOverwriteIndex: React.Dispatch<React.SetStateAction<number | null>>;
+  setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  speed: number;
+  steps: SortingAction[];
 };
 
 export type SortAnimatorParams = {
