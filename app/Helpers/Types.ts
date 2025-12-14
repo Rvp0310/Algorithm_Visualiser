@@ -1,3 +1,5 @@
+// Sorting Related
+
 export interface SortProps {
   arr: number[];
   done: boolean;
@@ -6,9 +8,14 @@ export interface SortProps {
   overwriteIndex: number | null;
 }
 
+export type SorterType = (nums: number[]) => {
+    steps: SortingAction[];
+}
+
 export interface AlgoItem {
   name: string;
   component: React.FC<SortProps>;
+  sorter: SorterType;
 }
 
 export type SortingAction =

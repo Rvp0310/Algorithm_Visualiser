@@ -13,12 +13,14 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from '@mui/material/Tooltip';
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import LegendItem from "./components/LegendItem";
 
 import None from "./components/None";
 
 import { randomArrayGen } from "./Helpers/ArrayGen";
-import { SortingAction } from "./Helpers/Types";
+import { SorterType, SortingAction } from "./Helpers/Types";
 import { mergeSortWithSteps } from "@/app/Helpers/algorithms/MergeSortLogic";
+import { bubbleSortWithSteps } from "./Helpers/algorithms/BubbleSortLogic";
 import { createSortingAnimator } from "@/app/Helpers/animator/SortAnimator";
 import {replay} from './Helpers/Animation'
 
@@ -56,7 +58,7 @@ export default function Visualizer() {
     const newArr = randomArrayGen(arraylen);
     setArr(newArr);
     setPrevArr(newArr);
-    const { steps } = mergeSortWithSteps([...newArr]);
+    const { steps } = selected.sorter([...newArr]);
     setSteps(steps);
     setDone(false);
     setActiveBars([]);
@@ -88,6 +90,7 @@ export default function Visualizer() {
                         setSelected({
                           name: algo.name,
                           component: algo.component,
+                          sorter: algo.sorter
                         })
                       }
                     />
@@ -102,7 +105,7 @@ export default function Visualizer() {
         {selected ? (
           <div className="sortSpace">
             <div style={{ height: "60px" }}>
-              {!playing && !done && (
+              {!playing && !done ? (
                 <button
                   type="button"
                   className="btn btn-info start"
@@ -115,6 +118,13 @@ export default function Visualizer() {
                 >
                   Start Sorting
                 </button>
+              ) : (
+                <div className="legend">
+                  <LegendItem color="#F2C94C" label="Comparing" />
+                  <LegendItem color="#EB5757" label="Swapping" />
+                  <LegendItem color="#27AE60" label="Overwriting" />
+                  <LegendItem color="#9B51E0" label="Sorted" />
+                </div>
               )}
             </div>
             <selected.component
@@ -153,7 +163,7 @@ export default function Visualizer() {
               <RestartAltIcon sx={{ color: "white" }} />
             </IconButton>
           </Tooltip>
-          {selected?.name === "Merge Sort" && (
+          {(selected?.name === "Merge Sort" || selected?.name === "Bubble Sort") && (
             <div style={{ opacity: playing? 0.4 : 1}}>
               array length:
               <br />

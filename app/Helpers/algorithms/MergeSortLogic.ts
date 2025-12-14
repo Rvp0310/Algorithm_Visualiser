@@ -1,6 +1,6 @@
 import { SortingAction } from "../Types";
 
-export const mergeSortWithSteps = (nums: number[]): {sorted: number[], steps: SortingAction[]}  => {
+export const mergeSortWithSteps = (nums: number[]): {steps: SortingAction[]}  => {
     const steps: SortingAction[] = [];
     const aux = [...nums];
 
@@ -74,5 +74,5 @@ export const mergeSortWithSteps = (nums: number[]): {sorted: number[], steps: So
 
     console.log("Steps: ", steps);
     
-    return { sorted: nums, steps };
+    return { steps };
 }
