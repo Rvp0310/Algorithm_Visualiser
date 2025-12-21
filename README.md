@@ -9,11 +9,13 @@ The focus right now is on building a solid, reusable visualization and animation
 
 ---
 
-## Current Version (v1)
+## Current Version (v2)
 
 ### Implemented Algorithms
 - **Merge Sort**
 - **Bubble Sort**
+- **Insertion Sort**
+- **Selection Sort**
 
 Each algorithm:
 - Generates its own step sequence
