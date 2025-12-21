@@ -18,16 +18,16 @@ import LegendItem from "./components/LegendItem";
 import None from "./components/None";
 
 import { randomArrayGen } from "./Helpers/ArrayGen";
-import { SorterType, SortingAction } from "./Helpers/Types";
-import { mergeSortWithSteps } from "@/app/Helpers/algorithms/MergeSortLogic";
-import { bubbleSortWithSteps } from "./Helpers/algorithms/BubbleSortLogic";
+import { SortingAction } from "./Helpers/Types";
 import { createSortingAnimator } from "@/app/Helpers/animator/SortAnimator";
 import {replay} from './Helpers/Animation'
 
 import { AlgoItem } from "./Helpers/Types";
+import Sort from "./components/AlgoVisualizer/Sort";
 
 export default function Visualizer() {
   const [selected, setSelected] = useState<AlgoItem>();
+  const [category, setCategory] = useState<string>();
   
   //For Sorting
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
@@ -86,12 +86,13 @@ export default function Visualizer() {
                   <ListItem key={`item-${category}-${algo.name}`}>
                     <ListItemText
                       primary={algo.name}
-                      onClick={() =>
-                        setSelected({
-                          name: algo.name,
-                          component: algo.component,
-                          sorter: algo.sorter
-                        })
+                      onClick={() => {
+                          setSelected({
+                            name: algo.name,
+                            sorter: algo.sorter
+                          })
+                          setCategory(category);
+                        }
                       }
                     />
                   </ListItem>
@@ -120,20 +121,30 @@ export default function Visualizer() {
                 </button>
               ) : (
                 <div className="legend">
-                  <LegendItem color="#F2C94C" label="Comparing" />
-                  <LegendItem color="#EB5757" label="Swapping" />
-                  <LegendItem color="#27AE60" label="Overwriting" />
-                  <LegendItem color="#9B51E0" label="Sorted" />
+                  {selected &&
+                    (
+                      category == 'Sorting' ?
+                        <>
+                          <LegendItem color="#F2C94C" label="Comparing" />
+                          <LegendItem color="#EB5757" label="Swapping" />
+                          <LegendItem color="#27AE60" label="Overwriting" />
+                          <LegendItem color="#9B51E0" label="Sorted" />
+                        </> : <></>
+                    )
+                  }
                 </div>
               )}
             </div>
-            <selected.component
-              arr={arr}
-              done={done}
-              activeBars={activeBars}
-              swapBars={swapBars}
-              overwriteIndex={overwriteIndex}
-            />
+            { 
+              category == 'Sorting' ?
+              < Sort
+                arr={arr}
+                done={done}
+                activeBars={activeBars}
+                swapBars={swapBars}
+                overwriteIndex={overwriteIndex}
+              /> : ''
+            }
           </div>
         ) : (
           <None />
@@ -163,7 +174,7 @@ export default function Visualizer() {
               <RestartAltIcon sx={{ color: "white" }} />
             </IconButton>
           </Tooltip>
-          {(selected?.name === "Merge Sort" || selected?.name === "Bubble Sort") && (
+          {(category == 'Sorting') && (
             <div style={{ opacity: playing? 0.4 : 1}}>
               array length:
               <br />

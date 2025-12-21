@@ -3,7 +3,7 @@
 An interactive algorithm visualizer built with **Next.js** and **React**, designed to make algorithms feel less abstract and more intuitive.  
 Instead of staring at dry pseudocode, this project shows step-by-step animations that reveal how algorithms actually work internally.
 
-This is **v1** of the project.
+This is **v2** of the project.
 
 The focus right now is on building a solid, reusable visualization and animation architecture. New algorithms will be added **incrementally** to the repository.
 
@@ -29,8 +29,13 @@ More algorithms will be added progressively.
 > 🚧 Live soon
 
 ![V1 demo](./public/Visualizer_v1.gif)
-<i>Speed in above demo is ~2 times faster so as to shorten the demo.</i>
+Present Algorithms: Merge Sort, and Bubble Sort.
 
+![V2 demo](./public/Visualizer_v2.gif)
+New Added: Insertion Sort, and Selection Sort.
+
+
+<i>Speed in above demo is ~2 times faster so as to shorten the demo.</i>
 ---
 
 ## Features

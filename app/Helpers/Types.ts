@@ -14,7 +14,6 @@ export type SorterType = (nums: number[]) => {
 
 export interface AlgoItem {
   name: string;
-  component: React.FC<SortProps>;
   sorter: SorterType;
 }
 

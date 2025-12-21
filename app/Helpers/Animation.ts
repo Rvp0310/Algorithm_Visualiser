@@ -1,4 +1,3 @@
-import MergeSort from "../components/Sorting/MergeSort";
 import { ReplayParam } from "./Types";
 import { createSortingAnimator } from "./animator/SortAnimator";
 

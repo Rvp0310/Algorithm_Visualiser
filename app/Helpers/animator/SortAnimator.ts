@@ -11,6 +11,10 @@ export const createSortingAnimator = ({
 } : SortAnimatorParams) => {
 
     const handleStep = (step: SortingAction) => {
+        setActiveBars([]);
+        setSwapBars([]);
+        setOverwriteIndex(null);
+        
         switch (step.action) {
             case "compare":
                 setActiveBars(step.index);

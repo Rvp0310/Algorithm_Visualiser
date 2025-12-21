@@ -1,7 +1,7 @@
 import React from 'react'
 import { SortProps } from '@/app/Helpers/Types'
 
-const BubbleSort: React.FC<SortProps> = ({
+const Sort: React.FC<SortProps> = ({
   arr,
   done,
   activeBars,
@@ -33,4 +33,4 @@ const BubbleSort: React.FC<SortProps> = ({
   )
 }
 
-export default BubbleSort
+export default Sort;
