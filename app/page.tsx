@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 
 import { algorithms } from "./data/algorithms";
@@ -7,6 +8,7 @@ import CodeIcon from "@mui/icons-material/Code";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
 import ListSubheader from "@mui/material/ListSubheader";
 import Slider from "@mui/material/Slider";
 import Button from "@mui/material/Button";
@@ -29,7 +31,7 @@ export default function Visualizer() {
   const [selected, setSelected] = useState<AlgoItem>();
   const [category, setCategory] = useState<string>();
   
-  //For Sorting
+  //For Sorting vv
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
   const [arr, setArr] = useState<number[]>([]);
   const [steps, setSteps] = useState<SortingAction[]>([]);
@@ -67,7 +69,7 @@ export default function Visualizer() {
     setPlaying(false);
   }, [refreshTrigger, selected]);
 
-  // For Sorting ^
+  // For Sorting ^^
 
   return (
     <>
@@ -75,6 +77,7 @@ export default function Visualizer() {
         <List
           sx={{
             "& ul": { padding: 0 },
+            opacity: !playing ? 1 : 0.6
           }}
           subheader={<CodeIcon />}
         >
@@ -84,8 +87,8 @@ export default function Visualizer() {
               <ul>
                 {items.map((algo) => (
                   <ListItem key={`item-${category}-${algo.name}`}>
-                    <ListItemText
-                      primary={algo.name}
+                    <ListItemButton
+                      disabled={playing}
                       onClick={() => {
                           setSelected({
                             name: algo.name,
@@ -94,7 +97,11 @@ export default function Visualizer() {
                           setCategory(category);
                         }
                       }
+                    >
+                    <ListItemText 
+                      primary={algo.name} 
                     />
+                  </ListItemButton>
                   </ListItem>
                 ))}
               </ul>

@@ -47,7 +47,7 @@ export const createSortingAnimator = ({
         let delay = 0;
         steps.forEach(step => {
             setTimeout(() => handleStep(step), delay);
-            delay += (105 - speed);
+            delay += (115 - speed);
         });
     };
 
