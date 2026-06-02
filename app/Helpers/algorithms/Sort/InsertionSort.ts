@@ -1,4 +1,4 @@
-import { SortingAction } from "../Types";
+import { SortingAction } from "../../Types";
 
 export const insertionSortWithSteps = (nums: number[]): {steps: SortingAction[]}  => {
     const steps: SortingAction[] = [];

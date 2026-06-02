@@ -16,16 +16,18 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from '@mui/material/Tooltip';
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import LegendItem from "./components/LegendItem";
-
+import SortControl from "./components/Controls/SortControl";
+import GraphControl from "./components/Controls/GraphControl";
+import SortSpace from "./components/VisualizerSpace/SortSpace";
+import GraphSpace from "./components/VisualizerSpace/GraphSpace";
 import None from "./components/None";
 
-import { randomArrayGen } from "./Helpers/ArrayGen";
+import { randomArrayGen } from "./Helpers/InputGenerator/ArrayGen";
 import { SortingAction } from "./Helpers/Types";
 import { createSortingAnimator } from "@/app/Helpers/animator/SortAnimator";
 import {replay} from './Helpers/Animation'
 
 import { AlgoItem } from "./Helpers/Types";
-import Sort from "./components/AlgoVisualizer/Sort";
 
 export default function Visualizer() {
   const [selected, setSelected] = useState<AlgoItem>();
@@ -44,6 +46,12 @@ export default function Visualizer() {
   const [arraylen, setArraylen] = useState<number>(0);
   const [prevArr, setPrevArr] = useState<number[]>([]);
 
+  // For Graph vv
+  const [graphNodes, setNodes] = useState<number>(7);
+  const [graphEdges, setEdges] = useState<number>(14);
+  const [weighted, setWeighted] = useState<boolean>(false);
+  const [directed, setDirected] = useState<boolean>(false);
+
   const { play } = createSortingAnimator({
     setArr,
     setActiveBars,
@@ -55,18 +63,20 @@ export default function Visualizer() {
   });
 
   useEffect(() => {
-    if (!selected) return;
+    if (!category) return;
 
-    const newArr = randomArrayGen(arraylen);
-    setArr(newArr);
-    setPrevArr(newArr);
-    const { steps } = selected.sorter([...newArr]);
-    setSteps(steps);
-    setDone(false);
-    setActiveBars([]);
-    setSwapBars([]);
-    setOverwriteIndex(null);
-    setPlaying(false);
+    if (category == "Sorting" && selected != null){
+      const newArr = randomArrayGen(arraylen);
+      setArr(newArr);
+      setPrevArr(newArr);
+      const { steps } = selected.sorter([...newArr]);
+      setSteps(steps);
+      setDone(false);
+      setActiveBars([]);
+      setSwapBars([]);
+      setOverwriteIndex(null);
+      setPlaying(false);
+    }
   }, [refreshTrigger, selected]);
 
   // For Sorting ^^
@@ -77,7 +87,7 @@ export default function Visualizer() {
         <List
           sx={{
             "& ul": { padding: 0 },
-            opacity: !playing ? 1 : 0.6
+            opacity: !playing ? 1 : 0.6,
           }}
           subheader={<CodeIcon />}
         >
@@ -110,50 +120,25 @@ export default function Visualizer() {
         </List>
       </aside>
       <main className="d-flex justify-content-center p-4">
-        {selected ? (
-          <div className="sortSpace">
-            <div style={{ height: "60px" }}>
-              {!playing && !done ? (
-                <button
-                  type="button"
-                  className="btn btn-info start"
-                  style={{ margin: "0 45%" }}
-                  onClick={() => {
-                    console.log(arr);
-                    setPlaying(true);
-                    play(steps);
-                  }}
-                >
-                  Start Sorting
-                </button>
-              ) : (
-                <div className="legend">
-                  {selected &&
-                    (
-                      category == 'Sorting' ?
-                        <>
-                          <LegendItem color="#F2C94C" label="Comparing" />
-                          <LegendItem color="#EB5757" label="Swapping" />
-                          <LegendItem color="#27AE60" label="Overwriting" />
-                          <LegendItem color="#9B51E0" label="Sorted" />
-                        </> : <></>
-                    )
-                  }
-                </div>
-              )}
-            </div>
-            { 
-              category == 'Sorting' ?
-              < Sort
-                arr={arr}
-                done={done}
-                activeBars={activeBars}
-                swapBars={swapBars}
-                overwriteIndex={overwriteIndex}
-              /> : ''
-            }
-          </div>
-        ) : (
+        {category == "Sorting" ? 
+          <SortSpace
+            arr={arr}
+            done={done}
+            playing={playing}
+            activeBars={activeBars}
+            swapBars={swapBars}
+            overwriteIndex={overwriteIndex}
+            onStart={() => {
+                setPlaying(true);
+                play(steps);
+            }}
+        />      
+        : category == "Graph" ? 
+          <GraphSpace 
+            nodesN = {graphNodes}
+            edgesN = {graphEdges}
+          /> 
+        : (
           <None />
         )}
       </main>
@@ -181,34 +166,8 @@ export default function Visualizer() {
               <RestartAltIcon sx={{ color: "white" }} />
             </IconButton>
           </Tooltip>
-          {(category == 'Sorting') && (
-            <div style={{ opacity: playing? 0.4 : 1}}>
-              array length:
-              <br />
-              <Slider
-                defaultValue={arraylen}
-                aria-label="Default"
-                disabled = {playing}
-                valueLabelDisplay="auto"
-                className="slide"
-                style={{
-                  padding: "1em 10px",
-                  width: "9em",
-                }}
-                onChange={(e, value) => {
-                  setArraylen(value);
-                }}
-              />
-              <Button
-                variant="outlined"
-                disabled = {playing}
-                sx={{ borderColor: "white", color: "white" }}
-                onClick={() => setRefreshTrigger((prev) => prev + 1)}
-              >
-                Generate New Input
-              </Button>
-            </div>
-          )}
+          {(category == 'Sorting') && <SortControl arraylen={arraylen} playing={playing} setArraylen={setArraylen} setRefreshTrigger={setRefreshTrigger}/>}
+          {(category == 'Graph') && <GraphControl playing={playing} graphNodes={graphNodes} graphEdges = {graphEdges} setNodes={setNodes} setEdges={setEdges}/>}
         </div>
       </aside>
     </>

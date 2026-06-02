@@ -56,3 +56,24 @@ export type SortAnimatorParams = {
   setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   speed: number;
 };
+
+export type SortSpaceProps = {
+    arr: number[];
+    done: boolean;
+    playing: boolean;
+    activeBars: number[];
+    swapBars: number[];
+    overwriteIndex: number | null;
+    onStart: () => void;
+};
+
+export type Node = {
+  id: number;
+  x: number;
+  y: number;
+}
+
+export type Edge = {
+  from: number;
+  to: number;
+}

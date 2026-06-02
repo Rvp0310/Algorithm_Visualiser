@@ -1,4 +1,4 @@
-import { SortingAction } from "../Types";
+import { SortingAction } from "../../Types";
 
 export const bubbleSortWithSteps = (nums: number[]): {steps: SortingAction[]}  => {
     const steps: SortingAction[] = [];
