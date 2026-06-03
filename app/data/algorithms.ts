@@ -38,7 +38,7 @@ export const algorithms = {
     // },
     {
       name: 'Breadth-First Search',
-      sorter: bfsWithSteps
+      graphAlgo: bfsWithSteps
     },
     // {
     //   name: 'Depth-First Search',

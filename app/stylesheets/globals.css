@@ -213,3 +213,11 @@ nav {
   display: flex;
   justify-content: space-between;
 }
+
+.start{
+  fill: var(--swap)
+}
+
+.goal{
+  fill: "red"
+}

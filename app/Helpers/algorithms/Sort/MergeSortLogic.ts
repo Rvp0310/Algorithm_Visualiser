@@ -71,8 +71,6 @@ export const mergeSortWithSteps = (nums: number[]): {steps: SortingAction[]}  =>
     steps.push({
       action: 'done'
     });
-
-    console.log("Steps: ", steps);
     
     return { steps };
 }

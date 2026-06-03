@@ -1,7 +1,8 @@
 import React from "react";
 import { Button, Slider } from "@mui/material";
+import NewInputBtn from "./NewInputBtn";
 
-const SortControl = ({arraylen, playing, setArraylen, setRefreshTrigger}: {arraylen: number, playing: boolean, setArraylen: React.Dispatch<React.SetStateAction<number>>, setRefreshTrigger: React.Dispatch<React.SetStateAction<number>>}) => {
+const SortControl = ({arraylen, playing, setArraylen}: {arraylen: number, playing: boolean, setArraylen: React.Dispatch<React.SetStateAction<number>> }) => {
   return (
     <div style={{ opacity: playing ? 0.4 : 1 }}>
       array length:
@@ -20,14 +21,6 @@ const SortControl = ({arraylen, playing, setArraylen, setRefreshTrigger}: {array
           setArraylen(value);
         }}
       />
-      <Button
-        variant="outlined"
-        disabled={playing}
-        sx={{ borderColor: "white", color: "white" }}
-        onClick={() => setRefreshTrigger((prev) => prev + 1)}
-      >
-        Generate New Input
-      </Button>
     </div>
   );
 };

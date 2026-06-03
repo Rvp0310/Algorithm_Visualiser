@@ -1,4 +1,4 @@
-import {SortAnimatorParams, SortingAction} from '../Types'
+import {SortAnimatorParams, SortingAction} from './Types'
 
 export const createSortingAnimator = ({
     setArr,
@@ -43,7 +43,7 @@ export const createSortingAnimator = ({
         }
     };
 
-    const play = (steps: SortingAction[]) => {
+    const sortPlay = (steps: SortingAction[]) => {
         let delay = 0;
         steps.forEach(step => {
             setTimeout(() => handleStep(step), delay);
@@ -51,5 +51,17 @@ export const createSortingAnimator = ({
         });
     };
 
-    return {play};
+    return {sortPlay};
+}
+
+export const createSortingAnimator = ({
+    setVisited,
+    set
+    setSwapBars,
+    setOverwriteIndex,
+    setDone,
+    setPlaying,
+    speed
+} : SortAnimatorParams) => {
+
 }

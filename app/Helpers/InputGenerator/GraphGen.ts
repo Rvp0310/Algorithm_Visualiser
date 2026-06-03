@@ -1,26 +1,32 @@
 import {Node, Edge} from "../../Helpers/Types"
 
 export const graphGen = (nodeN: number, edgeN: number) => {
-    const nodes: Node[] = [];
+    const graphNodes: Node[] = [];
 
     for (let i = 0; i < nodeN; i++) {
-        nodes.push({
+        graphNodes.push({
             id: i,
-            x: Math.random() * 500 + 50,
-            y: Math.random() * 500 + 50,
+            x: Math.random() * 400 + 50,
+            y: Math.random() * 400 + 50,
         });
     }
 
-    const edges: Edge[] = [];
+    const graphEdges: Edge[] = [];
 
-    while (edges.length < edgeN) {
+    while (graphEdges.length < edgeN) {
         const from = Math.floor(Math.random() * nodeN);
         const to = Math.floor(Math.random() * nodeN);
 
         if (from === to) continue;
 
-        edges.push({ from, to });
+        graphEdges.push({ from, to });
     }
 
-    return {nodes, edges};
+    const startNode = Math.floor(Math.random() * nodeN);
+    let goalNode = Math.floor(Math.random() * nodeN);
+    while (goalNode === startNode) {
+        goalNode = Math.floor(Math.random() * nodeN);
+    }
+    
+    return {graphNodes, graphEdges, startNode, goalNode};
 }

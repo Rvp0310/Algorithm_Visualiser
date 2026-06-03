@@ -1,8 +1,8 @@
 import { ReplayParam } from "./Types";
-import { createSortingAnimator } from "./animator/SortAnimator";
+import { createSortingAnimator } from "./Animators";
 
 
-export const replay = ({prevArr, setArr, setDone, setActiveBars, setSwapBars, setOverwriteIndex, setPlaying, speed, steps}: ReplayParam) => {
+export const replay = ({prevArr, setArr, setDone, setActiveBars, setSwapBars, setOverwriteIndex, setPlaying, speed, sortSteps}: ReplayParam) => {
     setArr(prevArr);
     setDone(false);
     setPlaying(true);
@@ -10,7 +10,7 @@ export const replay = ({prevArr, setArr, setDone, setActiveBars, setSwapBars, se
     setSwapBars([]);
     setOverwriteIndex(null);
 
-    const { play } = createSortingAnimator({
+    const { sortPlay } = createSortingAnimator({
         setArr,
         setActiveBars,
         setSwapBars,
@@ -20,6 +20,6 @@ export const replay = ({prevArr, setArr, setDone, setActiveBars, setSwapBars, se
         speed,
     });
     
-    play(steps);
+    sortPlay(sortSteps);
 }
 

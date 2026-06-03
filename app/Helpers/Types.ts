@@ -1,5 +1,7 @@
 // Sorting Related
 
+import React from "react";
+
 export interface SortProps {
   arr: number[];
   done: boolean;
@@ -9,12 +11,17 @@ export interface SortProps {
 }
 
 export type SorterType = (nums: number[]) => {
-    steps: SortingAction[];
+  steps: SortingAction[];
+}
+
+export type GraphAlgoType = (nodes: Node[], edges: Edge[], start: number, goal: number) => {
+  steps: GraphAction[];
 }
 
 export interface AlgoItem {
   name: string;
-  sorter: SorterType;
+  sorter?: SorterType;
+  graphAlgo?: GraphAlgoType;
 }
 
 export type SortingAction =
@@ -44,7 +51,7 @@ export type ReplayParam = {
   setOverwriteIndex: React.Dispatch<React.SetStateAction<number | null>>;
   setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   speed: number;
-  steps: SortingAction[];
+  sortSteps: SortingAction[];
 };
 
 export type SortAnimatorParams = {
@@ -76,4 +83,35 @@ export type Node = {
 export type Edge = {
   from: number;
   to: number;
+}
+
+export type GraphAction = 
+{
+  action: "discover";
+  node: number;
+} |
+{
+  action: "visit";
+  node: number;
+} |
+{
+  action: "explore";
+  from: number;
+  to: number;
+} | 
+{
+  action: "path";
+  nodes: number[];
+} |
+{
+  action: "done";
+}
+
+export type graphAnimatorProps = {
+  setDiscovered: React.Dispatch<React.SetStateAction<number[]>>;
+  setVisited: React.Dispatch<React.SetStateAction<number[]>>;
+  setPath: React.Dispatch<React.SetStateAction<number[]>>;
+  setDone: React.Dispatch<React.SetStateAction<boolean>>;
+  setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  speed: number;
 }

@@ -1,7 +1,8 @@
 import React from 'react'
 import { Button, Slider } from "@mui/material";
+import NewInputBtn from './NewInputBtn';
 
-const GraphControl = ({playing, graphNodes, graphEdges, setNodes, setEdges}: {playing: boolean, graphNodes: number, graphEdges: number, setNodes: React.Dispatch<React.SetStateAction<number>>, setEdges: React.Dispatch<React.SetStateAction<number>>}) => {
+const GraphControl = ({playing, graphNodes, graphEdges, setNodes, setEdges}: {playing: boolean, graphNodes: number, graphEdges: number, setNodes: React.Dispatch<React.SetStateAction<number>>, setEdges: React.Dispatch<React.SetStateAction<number>> }) => {
   return (
     <div style={{ opacity: playing ? 0.4 : 1 }}>
       No.of Nodes:
