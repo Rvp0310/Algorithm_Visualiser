@@ -1,6 +1,6 @@
 import { Node, Edge, GraphAction } from "../../Types"
 
-export const bfsWithSteps = ({nodes, edges, start, goal}: {nodes: Node[], edges: Edge[], start: number, goal: number}): {steps: GraphAction[]} => {
+export const bfsWithSteps = (nodes: Node[], edges: Edge[], start: number, goal: number): {steps: GraphAction[]} => {
     const steps: GraphAction[] = [];
     const queue: number[] = [];
     const visited = new Set<number>();

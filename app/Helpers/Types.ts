@@ -42,7 +42,7 @@ export type SortingAction =
       action: "done";
     };
 
-export type ReplayParam = {
+export type sortReplayParam = {
   prevArr: number[];
   setArr: React.Dispatch<React.SetStateAction<number[]>>;
   setDone: React.Dispatch<React.SetStateAction<boolean>>;
@@ -108,6 +108,16 @@ export type GraphAction =
 }
 
 export type graphAnimatorProps = {
+  setDiscovered: React.Dispatch<React.SetStateAction<number[]>>;
+  setVisited: React.Dispatch<React.SetStateAction<number[]>>;
+  setPath: React.Dispatch<React.SetStateAction<number[]>>;
+  setDone: React.Dispatch<React.SetStateAction<boolean>>;
+  setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  speed: number;
+}
+
+export type graphReplayParam = {
+  graphSteps: GraphAction[], 
   setDiscovered: React.Dispatch<React.SetStateAction<number[]>>;
   setVisited: React.Dispatch<React.SetStateAction<number[]>>;
   setPath: React.Dispatch<React.SetStateAction<number[]>>;

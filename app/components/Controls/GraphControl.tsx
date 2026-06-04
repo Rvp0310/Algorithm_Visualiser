@@ -8,10 +8,13 @@ const GraphControl = ({playing, graphNodes, graphEdges, setNodes, setEdges}: {pl
       No.of Nodes:
       <br />
       <Slider
-        defaultValue={graphNodes}
+        defaultValue={7}
         aria-label="Default"
         disabled={playing}
         valueLabelDisplay="auto"
+        min={5}
+        max={25}
+        value = {graphNodes}
         className="slide"
         style={{
           padding: "1em 10px",
@@ -27,7 +30,8 @@ const GraphControl = ({playing, graphNodes, graphEdges, setNodes, setEdges}: {pl
         <span>Dense</span>
       </div>
       <Slider
-        defaultValue={graphEdges}
+        defaultValue={14}
+        value = {graphEdges}
         aria-label="Default"
         disabled={playing}
         valueLabelDisplay="auto"
@@ -36,6 +40,8 @@ const GraphControl = ({playing, graphNodes, graphEdges, setNodes, setEdges}: {pl
           padding: "1em 10px",
           width: "9em",
         }}
+        min = {graphNodes - 1}
+        max = {Math.min(graphNodes * 2, (graphNodes * (graphNodes - 1)) / 2)}
         onChange={(e, value) => {
           setEdges(value);
         }}

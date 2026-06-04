@@ -1,13 +1,35 @@
 import {Node, Edge} from "../../Helpers/Types"
 
 export const graphGen = (nodeN: number, edgeN: number) => {
+
+    const min_dist = 50;
+
     const graphNodes: Node[] = [];
 
     for (let i = 0; i < nodeN; i++) {
+        let x,y;
+        let valid = false;
+        while(!valid){
+            x = Math.random() * 500 + 60;
+            y = Math.random() * 300 + 70;
+
+            valid = true;
+
+            for(const node of graphNodes){
+                const dx = node.x - x;
+                const dy = node.y - y;
+
+                if(Math.sqrt(dx * dx + dy * dy) < min_dist){
+                    valid = false;
+                    break;
+                }
+            }
+        }
+
         graphNodes.push({
             id: i,
-            x: Math.random() * 400 + 50,
-            y: Math.random() * 400 + 50,
+            x: x!,
+            y: y!
         });
     }
 

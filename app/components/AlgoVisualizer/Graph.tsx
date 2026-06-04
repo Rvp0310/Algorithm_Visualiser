@@ -5,14 +5,21 @@ const Graph = ({
   nodes,
   edges,
   start,
-  goal
+  goal,
+  visited,
+  discovered,
+  done,
+  path,
 }: {
   nodes: Node[];
   edges: Edge[];
   start: number;
   goal: number;
+  visited: number[];
+  discovered: number[];
+  done: boolean;
+  path: number[];
 }) => {
-
   return (
     <svg width="100%" height="100%">
       {/* Edges */}
@@ -27,7 +34,13 @@ const Graph = ({
             y1={fromNode.y}
             x2={toNode.x}
             y2={toNode.y}
-            stroke="black"
+            stroke={
+              done
+                ? path.includes(fromNode.id) && path.includes(toNode.id)
+                  ? "#9B51E0"
+                  : "white"
+                : "black"
+            }
           />
         );
       })}
@@ -38,8 +51,26 @@ const Graph = ({
           <circle
             cx={node.x}
             cy={node.y}
-            r="10"
-            fill={node.id == start? "green": node.id == goal ? "red" : "blue"}
+            r="15"
+            fill={
+              done
+                ? node.id === start
+                  ? "green"
+                  : node.id === goal
+                    ? "red"
+                    : path.includes(node.id)
+                      ? "#9B51E0"
+                      : "white"
+                : node.id === start
+                  ? "green"
+                  : node.id === goal
+                    ? "red"
+                    : visited.includes(node.id)
+                      ? "#272628"
+                      : discovered.includes(node.id)
+                        ? "#F2C94C"
+                        : "blue"
+            }
           />
           <text
             x={node.x}

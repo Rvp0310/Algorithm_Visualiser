@@ -1,8 +1,8 @@
-import { ReplayParam } from "./Types";
-import { createSortingAnimator } from "./Animators";
+import { sortReplayParam, graphReplayParam } from "./Types";
+import { createSortingAnimator, GraphAnimator } from "./Animators";
 
 
-export const replay = ({prevArr, setArr, setDone, setActiveBars, setSwapBars, setOverwriteIndex, setPlaying, speed, sortSteps}: ReplayParam) => {
+export const sortReplay = ({prevArr, setArr, setDone, setActiveBars, setSwapBars, setOverwriteIndex, setPlaying, speed, sortSteps}: sortReplayParam) => {
     setArr(prevArr);
     setDone(false);
     setPlaying(true);
@@ -23,3 +23,16 @@ export const replay = ({prevArr, setArr, setDone, setActiveBars, setSwapBars, se
     sortPlay(sortSteps);
 }
 
+export const graphReplay = ({graphSteps, setVisited, setDiscovered, setPath, setDone, setPlaying, speed}: graphReplayParam) => {
+    setDiscovered([]);
+    setVisited([]);
+    setPath([]);
+    setDone(false);
+    setPlaying(true);
+
+    const {graphPlay} = GraphAnimator({
+        setDiscovered, setVisited, setPath, setDone, setPlaying, speed
+      })
+    
+    graphPlay(graphSteps);
+}

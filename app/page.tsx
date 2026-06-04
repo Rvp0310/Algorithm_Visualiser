@@ -24,8 +24,8 @@ import None from "./components/None";
 import { randomArrayGen } from "./Helpers/InputGenerator/ArrayGen";
 import { graphGen } from "./Helpers/InputGenerator/GraphGen";
 import { SortingAction } from "./Helpers/Types";
-import { createSortingAnimator } from "@/app/Helpers/Animators";
-import {replay} from './Helpers/Animation'
+import { createSortingAnimator, GraphAnimator } from "@/app/Helpers/Animators";
+import {sortReplay, graphReplay} from './Helpers/Animation'
 
 import { AlgoItem } from "./Helpers/Types";
 import NewInputBtn from "./components/Controls/NewInputBtn";
@@ -52,8 +52,8 @@ export default function Visualizer() {
   // For Graph vv
   const [NodesN, setNodesN] = useState<number>(7);
   const [EdgesN, setEdgesN] = useState<number>(14);
-  const [weighted, setWeighted] = useState<boolean>(false);
-  const [directed, setDirected] = useState<boolean>(false);
+  // const [weighted, setWeighted] = useState<boolean>(false);
+  // const [directed, setDirected] = useState<boolean>(false);
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]> ([]);
   const [start, setStart] = useState<number>(0);
@@ -73,6 +73,10 @@ export default function Visualizer() {
     setPlaying,
     speed,
   });
+
+  const {graphPlay} = GraphAnimator({
+    setDiscovered, setVisited, setPath, setDone, setPlaying, speed
+  })
 
   // refresh input vv
   useEffect(() => {
@@ -96,7 +100,7 @@ export default function Visualizer() {
       setEdges(graphEdges);
       setStart(startNode);
       setGoal(goalNode)
-      const { steps } = selected!.graphAlgo!({nodes: graphNodes, edges: graphEdges, start: startNode, goal: goalNode});
+      const { steps } = selected!.graphAlgo!(graphNodes, graphEdges, startNode, goalNode);
       console.log(steps);
       setGraphSteps(steps);
       setDone(false);
@@ -159,7 +163,7 @@ export default function Visualizer() {
             overwriteIndex={overwriteIndex}
             onStart={() => {
                 setPlaying(true);
-                play(sortSteps);
+                sortPlay(sortSteps);
             }}
         />      
         : category == "Graph" ? 
@@ -168,10 +172,15 @@ export default function Visualizer() {
             edges = {edges}
             start = {start}
             goal = {goal}
+            visited = {visited}
+            discovered = {discovered}
+            path = {path}
             onStart = {() => {
               setPlaying(true);
               graphPlay(graphSteps);
             }}
+            done={done}
+            playing={playing}
           /> 
         : (
           <None />
@@ -197,7 +206,7 @@ export default function Visualizer() {
           />
           <br />
           <Tooltip title = 'Replay'>
-            <IconButton className='restartBtn' disabled={!selected || playing || !done} onClick = {() => replay({prevArr, setArr, setDone, setActiveBars, setSwapBars, setOverwriteIndex, setPlaying, speed, sortSteps})} sx={{ opacity: playing || !done? 0.4 : 1}} aria-label="restart">
+            <IconButton className='restartBtn' disabled={!selected || playing || !done} onClick = {category == "sorting" ? () => sortReplay({prevArr, setArr, setDone, setActiveBars, setSwapBars, setOverwriteIndex, setPlaying, speed, sortSteps}): () => graphReplay({graphSteps, setVisited, setDiscovered, setPath, setDone, setPlaying, speed})} sx={{ opacity: playing || !done? 0.4 : 1}} aria-label="restart">
               <RestartAltIcon sx={{ color: "white" }} />
             </IconButton>
           </Tooltip>

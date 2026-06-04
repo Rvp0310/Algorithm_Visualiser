@@ -1,4 +1,4 @@
-import {SortAnimatorParams, SortingAction} from './Types'
+import {SortAnimatorParams, SortingAction, graphAnimatorProps, GraphAction} from './Types'
 
 export const createSortingAnimator = ({
     setArr,
@@ -54,14 +54,41 @@ export const createSortingAnimator = ({
     return {sortPlay};
 }
 
-export const createSortingAnimator = ({
+export const GraphAnimator = ({
+    setDiscovered,
     setVisited,
-    set
-    setSwapBars,
-    setOverwriteIndex,
+    setPath,
     setDone,
     setPlaying,
     speed
-} : SortAnimatorParams) => {
+} : graphAnimatorProps) => {
 
+    const handleStep = (step: GraphAction) => {
+        switch(step.action){
+            case "discover":
+                setDiscovered((prev) => [...prev, step.node]);
+                break;
+            case "visit":
+                setDiscovered(prev => prev.filter(n => n !== step.node));
+                setVisited((prev) => [...prev, step.node]);
+                break;
+            case "path":
+                setPath(step.nodes);
+                break;
+            case "done":
+                setDone(true);
+                setPlaying(false);
+                break;
+        }
+    }
+
+    const graphPlay = (steps: GraphAction[]) => {
+        let delay = 0;
+        steps.forEach(step => {
+            setTimeout(() => handleStep(step), delay);
+            delay += (255 - speed);
+        });
+    }
+
+    return {graphPlay};
 }
