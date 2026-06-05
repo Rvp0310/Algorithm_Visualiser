@@ -4,13 +4,13 @@ An interactive algorithm visualizer built with **Next.js** and **React**, design
 Best Viewed on Large Screens like tablet, laptop and desktop.
 Instead of staring at dry pseudocode, this project shows step-by-step animations that reveal how algorithms actually work internally.
 
-This is **v3** of the project.
+This is **v2.5** of the project.
 
 The focus right now is on building a solid, reusable visualization and animation architecture. New algorithms will be added **incrementally** to the repository.
 
 ---
 
-## Current Version (v2)
+## Current Version (v2.5)
 
 ### Implemented Algorithms
 Sorting
