@@ -191,7 +191,7 @@ export default function Visualizer() {
           speed:
           <br />
           <Slider
-            defaultValue={speed}
+            value = {speed}
             disabled={!selected || playing}
             aria-label="Default"
             valueLabelDisplay="auto"

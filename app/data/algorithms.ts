@@ -28,37 +28,9 @@ export const algorithms = {
       sorter: quickSortWithSteps
     }
   ], Graph: [
-    // {
-    //   name: 'Dijkstra\'s Algorithm',
-    //   // sorter: dijkstraWithSteps  
-    // },
-    // {
-    //   name: 'A* Search',
-    //   // sorter: aStarWithSteps
-    // },
     {
       name: 'Breadth-First Search',
       graphAlgo: bfsWithSteps
     },
-    // {
-    //   name: 'Depth-First Search',
-    //   // sorter: dfsWithSteps
-    // },
-    // {
-    //   name: 'Bellman-Ford Algorithm',
-    //   // sorter: bellmanFordWithSteps
-    // },
-    // {
-    //   name: 'Floyd-Warshall Algorithm',
-    //   // sorter: floydWarshallWithSteps 
-    // },
-    // {
-    //   name: 'Prim\'s Algorithm',
-    //   // sorter: primWithSteps
-    // },
-    // {
-    //   name: 'Kruskal\'s Algorithm',
-    //   // sorter: kruskalWithSteps
-    // },
   ],
 }
