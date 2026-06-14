@@ -4,6 +4,7 @@ import { insertionSortWithSteps } from "../Helpers/algorithms/Sort/InsertionSort
 import { selectionSortWithSteps } from "../Helpers/algorithms/Sort/SelectionSortLogic";
 import { quickSortWithSteps } from "../Helpers/algorithms/Sort/QuickSortLogic";
 import { bfsWithSteps } from "../Helpers/algorithms/Graph/BFSLogic";
+import { dfsWithSteps } from "../Helpers/algorithms/Graph/DFSLogic";
 
 export const algorithms = {
   Sorting: [
@@ -31,6 +32,10 @@ export const algorithms = {
     {
       name: 'Breadth-First Search',
       graphAlgo: bfsWithSteps
+    },
+    {
+      name: 'Depth-First Search',
+      graphAlgo: dfsWithSteps
     },
   ],
 }
